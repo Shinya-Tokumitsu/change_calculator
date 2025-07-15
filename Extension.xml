@@ -1,0 +1,13 @@
+<extension version="1" name="CoordinateExporter">
+  <author>Your Name</author>
+  <description>Exports nodal coordinates of a selected Named Selection in a selected Coordinate System.</description>
+
+  <interface context="Mechanical">
+    <toolbar name="Custom Export Tools" caption="Custom Export">
+      <button name="ExportNodalCoords" caption="Export Nodal Coordinates"
+              icon="export" onaction="export_coordinates"/>
+    </toolbar>
+  </interface>
+
+  <script src="main.py"/>
+</extension>
