@@ -41,7 +41,8 @@ class Plotter:
             plt.plot()
         plt.xlabel("角度 [degree]", fontname = "MS Gothic", fontsize=20)
         plt.ylabel("内径変化量 [µm]", fontname = "MS Gothic", fontsize=20)
-        plt.legend(prop={"family":"MS Gothic", "size": 15})
+        # plt.legend(prop={"family":"MS Gothic", "size": 15}, loc="upper right")
+        plt.legend(prop={"family":"MS Gothic", "size": 15}, loc='upper right', bbox_to_anchor=(1.2, 1))
         plt.tick_params(axis='both', labelsize=15)
         plt.xlim(0, 180)
         x_scale = np.arange(0, 180 + 30, 30)
@@ -64,6 +65,7 @@ class Plotter:
         graph_filename = w_graph_folder_path / f"{r_file_path_name}_{title}.png"
         graph_title = r_file_path_name.replace("結果_", "") + "_" + title + "\n"
         plt.title(graph_title, fontsize=25)
+        plt.tight_layout(rect=(0, 0, 0.95, 1)) # 右側に凡例用のスペースを確保
         plt.savefig(graph_filename)
         plt.close()
         print(f"グラフを保存しました: {graph_filename}")
