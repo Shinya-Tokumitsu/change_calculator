@@ -33,7 +33,7 @@ class Plotter:
 
     def _plot_diameter_graph(self, title: str, raw_attr: str, fft_attr: str):
         """内径変化量のグラフ描画"""
-        plt.figure(figsize=(7, 7))
+        plt.figure(figsize=(8, 7))
         for res in self.results:
             y_data = getattr(res, fft_attr) if isinstance(res, FFTResult) else getattr(res, raw_attr)
             plot_label = None if res.line_color == "非表示" else res.situation
