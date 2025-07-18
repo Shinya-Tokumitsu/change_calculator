@@ -18,15 +18,35 @@ from result import *
 
 def activate_fft(amount_of_change, threshold) -> List[float]:   
   """FFT -> フィルター -> 逆FFT を行い、平滑化されたデータを返すメソッド"""
-  fft = np.fft.fft(amount_of_change)
-  power = np.abs(fft/len(amount_of_change))
-  filter = list(
-  map(float, power >= threshold)
-  )
-  filtered = fft * filter
-  inv_fft = np.fft.ifft(filtered)
-  inv_fft_real = inv_fft.real.tolist()
-  return inv_fft_real
+  original_len = len(amount_of_change)
+  signal = np.array(amount_of_change)
+  
+  # 信号を反転させて連結し、周期的な境界の不連続性をなくす
+  # 例: [1, 2, 3] -> [1, 2, 3, 3, 2, 1]
+  padded_signal = np.concatenate([signal, signal[::-1]])
+
+  # FFT、フィルタリング、逆FFT
+  fft_result = np.fft.fft(padded_signal)
+  power = np.abs(fft_result) / len(padded_signal) 
+  filter_mask = power >= threshold
+  filtered_fft = fft_result * filter_mask
+  
+  inverse_fft_result = np.fft.ifft(filtered_fft)
+  
+  # パディング部分を捨てて元の長さに戻す
+  smoothed_signal = inverse_fft_result.real[:original_len]
+  
+  return smoothed_signal.tolist()
+  
+  # fft = np.fft.fft(amount_of_change)
+  # power = np.abs(fft/len(amount_of_change))
+  # filter = list(
+  # map(float, power >= threshold)
+  # )
+  # filtered = fft * filter
+  # inv_fft = np.fft.ifft(filtered)
+  # inv_fft_real = inv_fft.real.tolist()
+  # return inv_fft_real
 
 def cap_rod_concat(cap: list, rod:list) -> List[float]:
   """capとrodを連結して一続きにするメソッド"""
